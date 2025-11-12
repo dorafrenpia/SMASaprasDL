@@ -1,0 +1,122 @@
+/* ===== Header ===== */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 25px;
+  width: 100%;
+  background: linear-gradient(to right, #00c6ff, #0072ff);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  z-index: 10;
+  box-sizing: border-box;
+}
+
+/* ===== Kiri Header ===== */
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-left img {
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+}
+
+.header-left h1 {
+  font-size: 1.3rem;
+  color: #fff;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* ===== Kanan Header ===== */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.notification {
+  position: relative;
+  font-size: 1.3rem;
+  cursor: pointer;
+  color: #fff;
+}
+
+.notification .badge {
+  position: absolute;
+  top: -5px;
+  right: -10px;
+  background-color: #dc3545;
+  color: #fff;
+  font-size: 0.7rem;
+  padding: 2px 6px;
+  border-radius: 50%;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.profile img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.logout-btn {
+  padding: 6px 14px;
+  background-color: #dc3545;
+  border: none;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.logout-btn:hover {
+  background-color: #c82333;
+}
+
+/* ===== Tombol Hamburger ===== */
+.hamburger {
+  font-size: 1.6rem;
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  display: none; /* default disembunyikan */
+}
+
+/* ===== Responsif untuk Mobile ===== */
+@media (max-width: 768px) {
+  .hamburger {
+    display: block; /* tampil di layar kecil */
+  }
+
+  .header {
+    padding: 10px 15px;
+  }
+
+  .header-left img {
+    width: 35px;
+    height: 35px;
+  }
+
+  .header-left h1 {
+    font-size: 1.1rem;
+  }
+
+  .header-right {
+    gap: 10px;
+  }
+
+  .logout-btn {
+    padding: 5px 10px;
+    font-size: 0.85rem;
+  }
+}

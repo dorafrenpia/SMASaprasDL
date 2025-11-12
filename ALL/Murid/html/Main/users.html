@@ -1,0 +1,27 @@
+
+<section>
+  <h2>👤 Data Akun</h2>
+  <div id="akunContainer">
+    <p class="empty">Memuat data akun...</p>
+  </div>
+</section>
+<script type="module">
+  // Ambil data user dari localStorage
+  const akunContainer = document.getElementById("akunContainer");
+  const userData = JSON.parse(localStorage.getItem("userLogin"));
+
+  if (userData) {
+    akunContainer.innerHTML = `
+      <div class="data-item"><span class="label">Nama:</span> <span class="value">${userData.nama}</span></div>
+      <div class="data-item"><span class="label">NISN:</span> <span class="value">${userData.nisn}</span></div>
+      <div class="data-item"><span class="label">Kelas:</span> <span class="value">${userData.kelas}</span></div>
+      <div class="data-item"><span class="label">Email:</span> <span class="value">${userData.email}</span></div>
+      <div class="data-item"><span class="label">Telepon:</span> <span class="value">${userData.telepon}</span></div>
+      <div class="data-item"><span class="label">Role:</span> <span class="value">${userData.role}</span></div>
+      <div class="data-item"><span class="label">Verifikasi Email:</span> <span class="value">${userData.verified ? "✅ Sudah" : "❌ Belum"}</span></div>
+      <div class="data-item"><span class="label">Tanggal Daftar:</span> <span class="value">${new Date(userData.tanggalInput).toLocaleString("id-ID")}</span></div>
+    `;
+  } else {
+    akunContainer.innerHTML = `<p class="empty">Belum ada data akun tersimpan.</p>`;
+  }
+</script>

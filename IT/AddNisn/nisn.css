@@ -1,0 +1,28 @@
+body { font-family: Arial, sans-serif; padding: 20px; }
+
+    input { padding: 8px; width: 200px; margin-right: 10px; }
+    button { padding: 8px 12px; cursor: pointer; }
+
+    /* Popup kanan atas */
+    .popup {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 12px 20px;
+      border-radius: 5px;
+      color: #fff;
+      font-size: 0.9em;
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: all 0.4s ease;
+      z-index: 9999;
+    }
+
+    .popup.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .popup.success { background-color: #28a745; }
+    .popup.error { background-color: #dc3545; }
+    .popup.info { background-color: #007bff; }

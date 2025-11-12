@@ -1,0 +1,27 @@
+ /* Reset dasar */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}/* ===== Body Flex untuk Sticky Footer ===== */
+body {
+
+  flex-direction: column;
+  
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Konten utama agar flexible */
+main, section {
+  flex: 1; /* mengambil sisa tinggi halaman */
+}
+
+/* Footer */
+.footer {
+  
+  color: #666666;
+  text-align: center;
+  padding: 15px 0;
+  
+}

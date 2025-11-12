@@ -1,0 +1,10 @@
+/* ===== Footer ===== */
+.footer {
+  padding: 15px 30px;
+  text-align: center;
+  background-color: #fff;
+  box-shadow: 0 -2px 5px rgba(0,0,0,0.05);
+  margin-top: auto;
+  font-size: 0.9rem;
+  color: #555;
+}

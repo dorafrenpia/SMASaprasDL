@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form Input Barang Masuk</title>
+  <style>
+    /* =======================
+      Card Container
+    ======================= */
+    .bm_card-container {
+      max-width: 450px;
+      margin: 40px auto;
+      padding: 25px 30px;
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .bm_card-container:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    }
+    .bm_card-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    /* =======================
+      Form Styling
+    ======================= */
+    .bm_card-form input,
+    .bm_card-form select {
+      width: 100%;
+      padding: 10px 15px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+    .bm_card-form input:focus,
+    .bm_card-form select:focus {
+      border-color: #4a90e2;
+      box-shadow: 0 0 8px rgba(74,144,226,0.3);
+      outline: none;
+    }
+    .bm_card-form label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: bold;
+      color: #555;
+    }
+
+    /* Buttons */
+    .bm_buttons {
+      display: flex;
+      gap: 10px;
+      margin: 15px 0;
+    }
+    .bm_buttons button,
+    .bm_submitBtn {
+      flex: 1;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+    #bm_loginBtn { background: #4CAF50; color: #fff; }
+    #bm_loginBtn:hover { background: #45a049; }
+    #bm_sendBtn { background: #2196F3; color: #fff; }
+    #bm_sendBtn:hover:not(:disabled) { background: #1976d2; }
+    .bm_submitBtn {
+      width: 100%;
+      background: linear-gradient(90deg, #4a90e2, #357abd);
+      color: #fff;
+      margin-top: 10px;
+    }
+    .bm_submitBtn:hover { opacity: 0.9; }
+
+    /* Preview Foto */
+    .bm_preview { text-align: center; margin: 15px 0; }
+    .bm_preview img {
+      max-width: 200px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      display: none;
+      transition: all 0.3s ease;
+    }
+  </style>
+</head>
+<body>
+  <section>
+    <main>
+      <div class="bm_card-container">
+        <h2>Form Input Barang Masuk</h2>
+        <form id="bm_barangForm" class="bm_card-form">
+          <input type="text" id="bm_kodeBarang" placeholder="Kode Barang" readonly>
+          <input type="text" id="bm_namaBarang" placeholder="Nama Barang" required>
+          <input type="text" id="bm_merekInput" placeholder="Masukkan merek" required>
+          <input type="number" id="bm_jumlahBarang" placeholder="Jumlah Barang" required>
+          <label>Tanggal Masuk
+            <input type="date" id="bm_tanggalBarang" required>
+          </label>
+          <label>Satuan
+            <select id="bm_satuanDropdown" required>
+              <option value="">-- Pilih satuan --</option>
+              <option value="pcs">pcs</option>
+              <option value="box">box</option>
+            </select>
+          </label>
+          <label>Kategori
+            <select id="bm_kategoriDropdown" required>
+              <option value="">-- Pilih kategori --</option>
+              <option value="ATK">ATK</option>
+              <option value="Elektronik">Elektronik</option>
+            </select>
+          </label>
+          <label>Jenis Dana
+            <select id="bm_danaDropdown" required>
+              <option value="">-- Pilih jenis dana --</option>
+              <option value="Bos">Bos</option>
+              <option value="Swadana">Swadana</option>
+            </select>
+          </label>
+          <button type="submit" class="bm_submitBtn">Simpan</button>
+        </form>
+      </div>
+    </main>
+  </section>
+
+  <script>
+    // Simulasi Firestore snapshot size
+    async function getExistingItems(kategori, tanggal) {
+      // Di sini seharusnya query ke Firestore
+      // Untuk contoh ini, kita return 3 items
+      return 3; 
+    }
+
+    async function generateKodeBM() {
+      const kategoriDropdown = document.getElementById("bm_kategoriDropdown");
+      const danaDropdown = document.getElementById("bm_danaDropdown");
+      const tanggalInput = document.getElementById("bm_tanggalBarang");
+      const kodeInput = document.getElementById("bm_kodeBarang");
+
+      const kategori = kategoriDropdown.value;
+      const jenisDana = danaDropdown.value;
+      const tanggal = tanggalInput.value;
+
+      if (!kategori || !jenisDana || !tanggal) {
+        kodeInput.value = "";
+        return;
+      }
+
+      const jdUpper = (jenisDana.charAt(0) + jenisDana.charAt(jenisDana.length - 1)).toUpperCase();
+      const tanggalStr = tanggal.replace(/-/g, "");
+
+      const urutan = (await getExistingItems(kategori, tanggal)) + 1;
+
+      kodeInput.value = `${kategori.toUpperCase()}-${jdUpper}-${tanggalStr}-${urutan}`;
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const kategoriDropdown = document.getElementById("bm_kategoriDropdown");
+      const danaDropdown = document.getElementById("bm_danaDropdown");
+      const tanggalInput = document.getElementById("bm_tanggalBarang");
+
+      kategoriDropdown.addEventListener("change", generateKodeBM);
+      danaDropdown.addEventListener("change", generateKodeBM);
+      tanggalInput.addEventListener("change", generateKodeBM);
+    });
+  </script>
+</body>
+</html>

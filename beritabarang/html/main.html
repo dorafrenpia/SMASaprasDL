@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Berita Acara Kerusakan Barang - SAPRAS SMADL</title>
+
+  <!-- Link CSS modular -->
+  <link rel="stylesheet" href="../css/header.css">
+  <link rel="stylesheet" href="../css/cards.css">
+  <link rel="stylesheet" href="../css/charts.css">
+  <link rel="stylesheet" href="../css/table.css">
+  <link rel="stylesheet" href="../css/footer.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <link rel="stylesheet" href="../../../../MAIN/main.css">
+  <link rel="stylesheet" href="../../../../MAIN/mainheader.css">
+  <link rel="stylesheet" href="../css/koneksi.css">
+  <link rel="stylesheet" href="../css/data.css">
+  <link rel="stylesheet" href="../css/barangmasuk.css">
+  <link rel="stylesheet" href="../css/main.css">
+
+  <style>
+     .header {
+      display: flex;
+      align-items: center;
+      justify-content: center; /* pusatkan isi secara horizontal */
+      background-color: #ffffff;
+      border-bottom: 1px solid #ddd;
+      padding: 10px 20px;
+      position: relative;
+    }
+    .form-container {
+      background: #fff;
+      padding: 20px;
+      margin: 30px auto;
+      border-radius: 12px;
+      max-width: 900px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .form-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .barang-group {
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 15px;
+      background: #f9f9f9;
+      position: relative;
+    }
+
+    .barang-group label {
+      display: block;
+      margin-top: 8px;
+      font-weight: bold;
+      color: #444;
+    }
+
+    .barang-group input, 
+    .barang-group textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    .remove-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #ff4d4d;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      padding: 5px 10px;
+    }
+
+    .remove-btn:hover {
+      background: #e60000;
+    }
+
+    .add-btn, .submit-btn {
+      display: inline-block;
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: 0.3s;
+    }
+
+    .add-btn:hover, .submit-btn:hover {
+      background: #0056b3;
+    }
+
+    .tanggal-container {
+      margin-bottom: 20px;
+    }
+
+    .tanggal-container label {
+      font-weight: bold;
+    }
+    
+  </style>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header mobile-header">
+    <div class="header-left">
+      <img src="../../../../../MAIN/image/logodharmaloka.png" alt="LogoDL">
+      <h1>Berita Acara Kerusakan Barang</h1>
+      <img src="../../../../../MAIN/image/logodharmaloka.png" alt="LogoDL">
+    </div>
+ </div>
+  </header>
+
+  <!-- Konten Utama -->
+  <main id="mainContent">
+    <section class="form-container">
+      <h2>Form Berita Acara Kerusakan Barang</h2>
+
+      <form id="kerusakanForm">
+        <div class="tanggal-container">
+          <label for="tanggal">Tanggal:</label>
+          <input type="date" id="tanggal" name="tanggal" required>
+        </div>
+
+        <div id="barangFields">
+          <!-- Field pertama -->
+          <div class="barang-group">
+            <label>Nama Barang / Peralatan:</label>
+            <input type="text" name="namaBarang" placeholder="Contoh: Proyektor Epson" required>
+
+            <label>Spesifikasi:</label>
+            <input type="text" name="spesifikasi" placeholder="Contoh: 4000 Lumens, HDMI, Full HD">
+
+            <label>Jumlah:</label>
+            <input type="number" name="jumlah" min="1" placeholder="Contoh: 2">
+
+            <label>Lokasi:</label>
+            <input type="text" name="lokasi" placeholder="Contoh: Ruang Kelas XI IPA 1">
+
+            <label>Kondisi & Tindakan Akurat:</label>
+            <textarea name="kondisi" rows="3" placeholder="Contoh: Lensa retak, akan dikirim untuk diperbaiki"></textarea>
+          </div>
+        </div>
+
+        <button type="button" class="add-btn" id="addFieldBtn">+ Tambah Barang</button><br>
+        <button type="submit" class="submit-btn">Kirim Laporan</button>
+      </form>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    &copy; 2025 IT Dharma Loka. All Rights Reserved.
+  </footer>
+
+  <!-- Script Google API -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+  <!-- Script utama -->
+  <script type="module" src="../js/submitKerusakan.js"></script>
+
+  <!-- Script Tambah/Hapus Field -->
+  <script>
+    const barangFields = document.getElementById("barangFields");
+    const addFieldBtn = document.getElementById("addFieldBtn");
+
+    addFieldBtn.addEventListener("click", () => {
+      const group = document.createElement("div");
+      group.classList.add("barang-group");
+      group.innerHTML = `
+        <button type="button" class="remove-btn">Hapus</button>
+        <label>Nama Barang / Peralatan:</label>
+        <input type="text" name="namaBarang" placeholder="Contoh: Proyektor Epson" required>
+
+        <label>Spesifikasi:</label>
+        <input type="text" name="spesifikasi" placeholder="Contoh: 4000 Lumens, HDMI, Full HD">
+
+        <label>Jumlah:</label>
+        <input type="number" name="jumlah" min="1" placeholder="Contoh: 2">
+
+        <label>Lokasi:</label>
+        <input type="text" name="lokasi" placeholder="Contoh: Ruang Kelas XI IPA 1">
+
+        <label>Kondisi & Tindakan Akurat:</label>
+        <textarea name="kondisi" rows="3" placeholder="Contoh: Lensa retak, akan dikirim untuk diperbaiki"></textarea>
+      `;
+      barangFields.appendChild(group);
+    });
+
+    barangFields.addEventListener("click", (e) => {
+      if (e.target.classList.contains("remove-btn")) {
+        e.target.parentElement.remove();
+      }
+    });
+
+    document.getElementById("kerusakanForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      alert("✅ Laporan berhasil dikirim!");
+    });
+  </script>
+</body>
+</html>

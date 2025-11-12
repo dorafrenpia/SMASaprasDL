@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard SAPRAS SMADL</title>
+
+  <!-- Link CSS modular -->
+  <link rel="stylesheet" href="../css/header.css">
+  <link rel="stylesheet" href="../css/sidebar.css">
+  <link rel="stylesheet" href="../css/cards.css">
+  <link rel="stylesheet" href="../css/charts.css">
+  <link rel="stylesheet" href="../css/table.css">
+  <link rel="stylesheet" href="../css/footer.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+<link rel="stylesheet" href="../../../../MAIN/main.css">
+<link rel="stylesheet" href="../../../../MAIN/mainheader.css">
+<link rel="stylesheet" href="../css/koneksi.css">
+<link rel="stylesheet" href="../css/data.css">
+<link rel="stylesheet" href="../css/barangmasuk.css">
+
+<link rel="stylesheet" href="../css/radiobuttonbarang.css">
+
+<link rel="stylesheet" href="../css/tabledropdown.css">
+<link rel="stylesheet" href="../css/main.css">
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <!-- Overlay Sidebar untuk layar kecil -->
+  <div id="sidebar-overlay"></div>
+<!-- Header  -->
+<header class="header mobile-header">
+  <div class="header-left">
+    <button class="hamburger" id="hamburger-btn">☰</button>
+    <img src="../../../../../MAIN/image/logodharmaloka.png" alt="LogoDL">
+    <h1>Dashboard</h1>
+  </div>
+
+  <div class="header-right">
+    <div class="notification">
+      🔔 <span class="badge">0</span>
+    </div>
+    <div class="profile">
+      <!-- Tambahkan foto profil jika perlu -->
+    </div>
+    <button id="logout-btn" class="logout-btn">Logout</button>
+  </div>
+</header>
+
+
+  <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <h2>SAPRAS SMADL</h2>
+    </div>
+    <nav class="sidebar-menu">
+      <a href="#" data-page="dashboard" class="active">Dashboard</a>
+      <a href="#" data-page="barangmasuk">Barang Masuk</a>
+      <a href="#" data-page="data">Data Barang</a>
+      <a href="#" data-page="historybarang">History Barang</a>
+      <a href="#" data-page="dropdown">Dropdown</a>
+      <a href="#" data-page="akun">Data Akun</a>
+      <a href="#" data-page="koneksi">Cek Koneksi</a>
+    </nav>
+  </aside>
+  <!-- Konten Utama -->
+  <main id="mainContent">
+    <section>
+  
+</section>
+
+  </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+       &copy; 2025 IT Dharma Loka. All Rights Reserved.
+    </footer>
+  </div>
+  <!-- ✅ HARUS di atas semua script yang pakai Google API -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+
+<!-- Script loader dan modul lain -->
+<script type="module" src="../js/main.js"></script>
+<script type="module" src="../js/loader.js"></script>
+
+
+  <!--<script type="module" src="../../../../MAIN/roleadmin.js"></script>-->
+</body>
+</html>

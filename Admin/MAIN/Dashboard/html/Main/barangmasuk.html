@@ -1,0 +1,105 @@
+<section>
+  <main>
+    <div class="bm_card-container">
+      <h2>Form Input Barang Masuk</h2>
+      <form id="bm_barangForm" class="bm_card-form">
+
+        <!-- Pilihan Jenis Data -->
+        <div class="bm_radio-group">
+          <label>
+            <input type="radio" name="bm_jenisData" id="bm_dataSudahAda" value="lama">
+            Data sudah ada
+          </label>
+          <label>
+            <input type="radio" name="bm_jenisData" id="bm_dataBaru" value="baru">
+            Data baru
+          </label>
+        </div>
+ <!-- 🔹 Tabel Data Barang Masuk -->
+        <div class="bm_table-container">
+          <table id="db_barangTable" class="bm_table">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Nama Barang</th>
+                <th>Merek</th>
+                <th>Jumlah</th>
+                <th>Kategori</th>
+                <th>Satuan</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="6" style="text-align:center;">⏳ Memuat data...</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- Kode Barang -->
+        <input type="text" id="bm_kodeBarang" placeholder="Kode Barang" required readonly>
+
+        <!-- Nama Barang -->
+        <input type="text" id="bm_namaBarang" placeholder="Nama Barang" required>
+
+        <!-- Merek -->
+        <input type="text" id="bm_merekInput" placeholder="Masukkan merek" required>
+
+        <!-- Jumlah Barang -->
+        <input type="number" id="bm_jumlahBarang" placeholder="Jumlah Barang" required>
+
+        <!-- Tanggal Masuk -->
+        <label>
+          Tanggal Masuk
+          <input type="date" id="bm_tanggalBarang" required>
+        </label>
+
+        <!-- Satuan -->
+        <label>
+          Satuan
+          <select id="bm_satuanDropdown" required>
+          </select>
+        </label>
+
+        <!-- Kategori -->
+        <label>
+          Kategori
+          <select id="bm_kategoriDropdown" required>
+          </select>
+        </label>
+
+        <!-- Jenis Dana -->
+        <label>
+          Jenis Dana
+          <select id="bm_danaDropdown" required>
+          </select>
+        </label>
+
+        <!-- Foto Barang -->
+        <label>
+          Foto Barang
+          <input type="file" id="bm_fotoInput" accept="image/*" disabled>
+        </label>
+
+        <!-- Tombol Login & Upload -->
+        <div class="bm_buttons">
+          <button type="button" id="bm_loginBtn">Login Google Drive</button>
+          <button type="button" id="bm_sendBtn" disabled>Upload Foto</button>
+        </div>
+
+        <!-- Preview Foto -->
+        <div id="bm_previewContainer" class="bm_preview">
+          <img id="bm_previewImage" src="" alt="">
+          <p id="bm_uploadInfo">📷 Belum ada foto diupload</p>
+        </div>
+
+        <!-- Keterangan -->
+        <input type="text" id="bm_keteranganInput" placeholder="Isi keterangan">
+
+        <!-- Submit -->
+        <button type="submit" class="bm_submitBtn">Simpan</button>
+      </form>
+    </div>
+  </main>
+</section>
+
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script type="module" src="../../js/barangmasuk.js"></script>
+

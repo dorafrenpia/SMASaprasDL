@@ -1,0 +1,20 @@
+footer {
+  
+  color: #fff;
+  text-align: center;
+  padding: 30px 20px;
+}
+
+footer a {
+  color: #00ffff;
+}
+.footer-animate {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.footer-animate.visible {
+  opacity: 1;
+  transform: translateY(0);
+}

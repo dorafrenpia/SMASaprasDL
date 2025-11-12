@@ -1,0 +1,55 @@
+<section class="page-section" id="guru-section">
+  <h2>📚 Data Guru</h2>
+
+  <form id="formGuru" style="margin-top: 15px; padding: 10px; border:1px solid #ccc; border-radius:8px;">
+    <input type="text" id="namaGuru" placeholder="Nama Lengkap" required style="padding:5px; margin-bottom:5px; width:100%;">
+    <input type="text" id="nipGuru" placeholder="NIP" required style="padding:5px; margin-bottom:5px; width:100%;">
+    <input type="text" id="mapelGuru" placeholder="Mata Pelajaran" required style="padding:5px; margin-bottom:5px; width:100%;">
+    <button type="submit" style="padding:5px 10px; background:#4a90e2; color:white; border:none; border-radius:5px;">Simpan</button>
+  </form>
+
+  <table id="tabelGuru" style="margin-top:15px; width:100%; border-collapse:collapse;">
+    <thead>
+      <tr style="background:#4a90e2; color:white;">
+        <th style="padding:5px; border:1px solid #ccc;">No</th>
+        <th style="padding:5px; border:1px solid #ccc;">Nama</th>
+        <th style="padding:5px; border:1px solid #ccc;">NIP</th>
+        <th style="padding:5px; border:1px solid #ccc;">Mapel</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td colspan="4" style="text-align:center; color:#777;">Belum ada data guru</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <script>
+    const formGuru = document.getElementById("formGuru");
+    const tabelGuru = document.getElementById("tabelGuru").querySelector("tbody");
+
+    formGuru.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const nama = document.getElementById("namaGuru").value.trim();
+      const nip = document.getElementById("nipGuru").value.trim();
+      const mapel = document.getElementById("mapelGuru").value.trim();
+
+      if (!nama || !nip || !mapel) return alert("Harap isi semua kolom!");
+
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td style="padding:5px; border:1px solid #ccc;">${tabelGuru.children.length + 1}</td>
+        <td style="padding:5px; border:1px solid #ccc;">${nama}</td>
+        <td style="padding:5px; border:1px solid #ccc;">${nip}</td>
+        <td style="padding:5px; border:1px solid #ccc;">${mapel}</td>
+      `;
+
+      if (tabelGuru.children.length === 1 && tabelGuru.children[0].children[0].colSpan === 4) {
+        tabelGuru.innerHTML = "";
+      }
+
+      tabelGuru.appendChild(row);
+      formGuru.reset();
+    });
+  </script>
+</section>

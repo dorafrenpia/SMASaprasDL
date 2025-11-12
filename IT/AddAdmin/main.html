@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form Registrasi</title>
+</head>
+<body>
+  <h2>Form Registrasi</h2>
+
+  <form id="registerForm">
+    <label>Username:</label><br>
+    <input type="text" id="username" required><br><br>
+
+    <label>Password:</label><br>
+    <input type="password" id="password" required><br><br>
+
+    <label>Role:</label><br>
+    <select id="role" required>
+      <option value="">-- Pilih Role --</option>
+      <option value="admin">Admin</option>
+      <option value="IT">IT</option>
+    </select><br><br>
+
+    <button type="submit">Daftar</button>
+  </form>
+
+  <p id="status"></p>
+
+  <script type="module" src="main.js"></script>
+</body>
+</html>

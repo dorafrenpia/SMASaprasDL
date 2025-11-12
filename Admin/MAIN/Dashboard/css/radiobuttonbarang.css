@@ -1,0 +1,85 @@
+  /* Grup radio agar sejajar */
+  .bm_radio-group {
+    display: flex;
+    align-items: center;
+    gap: 2rem; /* jarak antar opsi */
+    margin-bottom: 10px;
+  }
+
+  /* Setiap label biar rapi */
+  .bm_radio-group label {
+    display: flex;
+    align-items: center;
+    gap: 6px; /* jarak antara radio dan teks */
+    font-size: 0.95rem;
+    cursor: pointer;
+  }
+
+  /* Ukuran radio button */
+  .bm_radio-group input[type="radio"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #007bff; /* warna biru (bisa diganti sesuai tema) */
+    cursor: pointer;
+  }
+
+    /* Radio group horizontal */
+  .bm_radio-group {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 10px;
+  }
+
+  .bm_radio-group label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+  }
+
+  .bm_radio-group input[type="radio"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #007bff;
+    cursor: pointer;
+  }
+
+  /* Table */
+  .bm_table-container {
+    margin-bottom: 20px;
+    overflow-x: auto;
+  }
+
+  .bm_table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 5px;
+    font-size: 0.9rem;
+  }
+
+  .bm_table th, .bm_table td {
+    border: 1px solid #fafafa;
+    padding: 8px;
+    text-align: left;
+  }
+
+  .bm_table th {
+    background: #002fff;
+    font-weight: bold;
+  }
+
+  .bm_table tr:nth-child(even) {
+    background: #fafafa;
+  }
+
+  .bm_table tr:hover {
+    background: #f0f7ff;
+  }.bm_table tr {
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.bm_table tr:hover {
+  background: #f1f1f1;
+}

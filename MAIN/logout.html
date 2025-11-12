@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logout</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f2f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .logout-container {
+      background: white;
+      padding: 30px 40px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    h2 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+    button {
+      background-color: #ff4d4d;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    button:hover {
+      background-color: #e63b3b;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="logout-container">
+    <h2>Apakah kamu yakin ingin keluar?</h2>
+    <button id="logoutBtn">Logout</button>
+  </div>
+
+  <script type="module">
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    logoutBtn.addEventListener("click", () => {
+      // 🔹 Hapus data login dari localStorage
+      localStorage.removeItem("userLogin");
+
+      // 🔹 (Opsional) Tambahkan pesan singkat
+      alert("Kamu telah logout!");
+
+      // 🔹 Arahkan kembali ke halaman login
+      window.location.href = "index.html"; // ubah sesuai nama file login kamu
+    });
+  </script>
+
+</body>
+</html>

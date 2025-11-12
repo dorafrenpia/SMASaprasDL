@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Barang Masuk</title>
+  <style>
+    /* Basic table styling */
+    .bm_table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    .bm_table th, .bm_table td {
+      padding: 12px;
+      text-align: left;
+      border: 1px solid #ddd;
+    }
+
+    .bm_table th {
+      background-color: #f4f4f4;
+    }
+
+    .bm_table tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    .bm_table tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    .bm_table a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    .bm_table a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <section>
+    <main>
+      <div class="bm_card-container">
+        <h2>Data Barang Masuk</h2>
+
+        <!-- Table to display the data -->
+        <table id="barangMasukTable" class="bm_table">
+          <thead>
+            <tr>
+              <th>Kode Barang</th>
+              <th>Nama Barang</th>
+              <th>Merek</th>
+              <th>Jumlah</th>
+              <th>Tanggal Masuk</th>
+              <th>Keterangan</th>
+              <th>Foto Barang</th>
+            </tr>
+          </thead>
+          <tbody id="barangMasukTableBody">
+            <!-- Data will be populated here -->
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </section>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js"></script>
+
+  <script type="module">
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyAXmwLsgQ8GyBjGw17_DcDA4JQ3MJz_xXY",
+      authDomain: "smadlsapras.firebaseapp.com",
+      projectId: "smadlsapras",
+      storageBucket: "smadlsapras.firebasestorage.app",
+      messagingSenderId: "302462390543",
+      appId: "1:302462390543:web:bd006f8e67b2b903d12e7a"
+    };
+
+    // Import Firebase modules
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js";
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Function to fetch and display data from Firestore
+    async function displayData() {
+      const tableBody = document.getElementById('barangMasukTableBody');
+
+      try {
+        const querySnapshot = await getDocs(collection(db, "barangMasuk"));
+        
+        if (querySnapshot.empty) {
+          tableBody.innerHTML = "<tr><td colspan='7'>No data available</td></tr>";
+          return;
+        }
+
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          const row = document.createElement('tr');
+
+          row.innerHTML = `
+            <td>${data.kodeBarang}</td>
+            <td>${data.namaBarang}</td>
+            <td>${data.merek}</td>
+            <td>${data.jumlah}</td>
+            <td>${data.tanggalMasuk}</td>
+            <td>${data.keterangan}</td>
+            <td><a href="${data.fotoUrl}" target="_blank">Lihat Foto</a></td>
+          `;
+          tableBody.appendChild(row);
+        });
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+    }
+
+    // Call the function when the DOM is loaded
+    document.addEventListener("DOMContentLoaded", displayData);
+  </script>
+</body>
+</html>

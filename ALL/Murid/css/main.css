@@ -1,0 +1,264 @@
+
+/* =========================
+   POPUP EDIT (overlay fullscreen)
+========================= */
+.popup-edit {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.popup-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  min-width: 250px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5); /* overlay hitam transparan */
+  display: none;  /* default hidden */
+  justify-content: center;  /* horizontal center */
+  align-items: center;      /* vertical center */
+  z-index: 1000;
+}
+
+/* =========================
+   POPUP NOTIF (pojok kanan)
+========================= */
+.popup-notif {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #333;
+  color: #fff;
+  padding: 15px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 3000;
+}
+
+.popup-notif.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.popup-notif.success {
+  background-color: #28a745;
+}
+
+.popup-notif.error {
+  background-color: #dc3545;
+}
+
+.popup-notif.info {
+  background-color: #007bff;
+}
+
+/* Buttons in table */
+.delete-users-btn,
+.delete-all-btn {
+  padding: 4px 8px;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.delete-users-btn {
+  background-color: #e67e22;
+  margin-right: 5px;
+}
+
+.delete-users-btn:hover {
+  background-color: #d35400;
+}
+
+.delete-all-btn {
+  background-color: #e74c3c;
+}
+
+.delete-all-btn:hover {
+  background-color: #c0392b;
+}
+
+.edit-btn {
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: 4px 6px;   /* lebih ramping */
+  font-size: 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.delete-btn {
+  background: #e74c3c;
+  color: white;
+  border: none;
+  padding: 4px 6px;   /* lebih ramping */
+  font-size: 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.edit-btn:hover {
+  background: #2980b9;
+}
+
+.delete-btn:hover {
+  background: #c0392b;
+}
+button.group-button {
+  width: 100%;
+  padding: 10px;
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 5px;
+  transition: background 0.3s, transform 0.2s, box-shadow 0.2s;
+}
+
+/* Animasi hover */
+button.group-button:hover {
+  background: #0056b3;
+  transform: scale(1.05); /* tombol sedikit membesar */
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2); /* shadow muncul */
+}
+
+/* Animasi klik (opsional) */
+button.group-button:active {
+  transform: scale(0.98); /* tombol sedikit mengecil saat diklik */
+  box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+}
+
+
+/* Header dasar */
+header {
+  background: #4a90e2;
+  padding: 10px 20px;
+}
+
+header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap; /* supaya bisa pindah ke baris baru di HP */
+}
+
+.header-with-img {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-logo {
+  width: 40px;
+  height: auto;
+}
+
+nav {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+nav a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+}
+
+nav button {
+  font-weight: bold;
+  padding: 6px 12px;
+  background: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+nav button:hover {
+  background: #c0392b;
+}
+
+/* Media query untuk HP */
+@media (max-width: 480px) {
+  header .container {
+    flex-direction: column; /* header vertikal */
+    align-items: flex-start; /* kiri */
+    gap: 10px;
+  }
+
+  nav {
+    flex-direction: column; /* menu vertikal */
+    gap: 8px;
+    width: 100%;
+  }
+
+  nav a, nav button {
+    width: 100%; /* full lebar di HP */
+    text-align: left;
+  }
+
+  .header-logo {
+    width: 30px; /* logo lebih kecil di HP */
+  }
+}
+/* Tombol add, cancel, save */
+#openAddBtn,
+#cancelAddBtn,
+#saveAddBtn {
+  width: 100%;
+  padding: 10px;
+  background: #007bff; /* bisa ubah warna sesuai tombol */
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 5px;
+  transition: background 0.3s, transform 0.2s, box-shadow 0.2s;
+}
+
+/* Hover animasi */
+#openAddBtn:hover,
+#cancelAddBtn:hover,
+#saveAddBtn:hover {
+  transform: scale(1.05); /* sedikit membesar */
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2); /* shadow muncul */
+}
+
+/* Klik animasi */
+#openAddBtn:active,
+#cancelAddBtn:active,
+#saveAddBtn:active {
+  transform: scale(0.98); /* mengecil saat diklik */
+  box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+}
+
+/* Optional: berbeda warna tiap tombol */
+#cancelAddBtn { background: #e74c3c; }
+#cancelAddBtn:hover { background: #c0392b; }
+
+#saveAddBtn { background: #28a745; }
+#saveAddBtn:hover { background: #1e8449; }

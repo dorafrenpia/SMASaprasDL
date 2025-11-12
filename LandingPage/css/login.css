@@ -1,0 +1,108 @@
+/* ===========================
+   Modal Login Popup
+=========================== */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 200;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+  background: white;
+  padding: 40px 30px;
+  border-radius: 15px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+  text-align: center;
+  width: 350px;
+  animation: slideUp 0.4s ease;
+}
+
+.modal-content h2 {
+  margin-bottom: 20px;
+  color: #007bff;
+}
+
+.modal-content input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.btn-login-submit {
+  width: 100%;
+  background: linear-gradient(90deg, #007bff, #00c6ff);
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+.btn-login-submit:hover {
+  background: linear-gradient(90deg, #0066cc, #00aaff);
+}
+
+.close {
+  position: absolute;
+  right: 25px;
+  top: 20px;
+  font-size: 28px;
+  color: #666;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.close:hover {
+  color: red;
+}
+
+/* Animations */
+@keyframes slideUp {
+  from { transform: translateY(40px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+/* Logo di belakang form */
+.login-logo-bg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 150px;              /* ukuran logo */
+  height: auto;
+  opacity: 0.4;             /* tingkat transparansi */
+  pointer-events: none;      /* supaya tidak ganggu klik input */
+  user-select: none;         /* biar tidak bisa diseleksi */
+}
+.register-text {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 0.9rem;
+}
+
+#registerLink {
+  color: #007BFF; /* biru */
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+#registerLink:hover {
+  color: #0056b3;
+}

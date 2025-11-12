@@ -1,0 +1,131 @@
+<section>
+  <main>
+    <div class="bm_card-container">
+      <h2>Form Input Pengajuan Barang</h2>
+      <form id="bm_barangForm" class="bm_card-form">
+        <!-- 🔹 Kode Pengajuan -->
+        <input type="text" id="bm_kodePengajuan" placeholder="Kode Pengajuan" readonly style="background:#f5f5f5; font-weight:bold;">
+        <input type="text" id="bm_namaPeminjam" placeholder="Nama Peminjam" required readonly>
+        <input type="text" id="bm_kelasInput" placeholder="Kelas / Jabatan" required readonly>
+
+        <!-- 🔌 Status koneksi Firestore -->
+        <div id="bm_status1" style="margin-top:10px; font-size:14px; color:#555;">
+          ⏳ Mengecek koneksi Firestore...
+        </div>
+
+        <!-- 🔍 Cari Barang -->
+        <input type="text" id="bm_searchBarang" class="search-input" placeholder="Cari nama barang..." style="padding:4px 8px !important; font-size:12px !important; width:50% !important; border:1px solid #ccc !important; border-radius:6px !important; margin-bottom:10px !important; display:block !important; margin-left:0 !important;">
+
+        <!-- 🔹 Filter & Table Barang -->
+        <div class="table-container" style="margin-bottom:15px;">
+          <div class="checkbox-container">
+            <label>
+              <input type="checkbox" id="bm_filterStokHabis" style="width: auto !important;">
+              Tampilkan hanya stok yang tersedia
+            </label>
+            <label>
+              <input type="checkbox" id="bm_markStokHabis" style="width: auto !important;">
+              Tandai stok habis
+            </label>
+          </div>
+
+          <table id="bm_barangMasukTable" class="barang-table">
+     <thead>
+  <tr>
+    <th>No</th>
+    <th>Nama Barang</th>
+    <th>Satuan</th>
+    <th>Merek</th>
+    <th>Jumlah</th>
+    <th>Foto</th>
+  </tr>
+</thead>
+            <tbody>
+              <tr><td colspan="4" style="text-align:center;">⏳ Memuat data...</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 🔹 Bagian Input Barang -->
+        <div id="bm_barangSection">
+          <div id="bm_barangTabs" style="margin-bottom:10px; display:flex; gap:8px; overflow-x:auto; white-space:nowrap; padding-bottom:5px; border-bottom:1px solid #ccc;">
+          </div>
+
+          <div id="bm_barangFields">
+            <h2>Barang 1</h2>
+            <div class="barang-field" data-id="1">
+             
+            </div>
+          </div>
+
+          <!-- Tombol Tambah & Hapus Barang -->
+          <div style="margin-top:10px;">
+            <button type="button" id="bm_addBarangBtn" style="padding:6px 12px; background:#27ae60; color:#fff; border:none; border-radius:6px; cursor:pointer;">
+              ➕ Tambah Barang
+            </button>
+            <button type="button" id="bm_hapusBarangBtn" style="padding:6px 12px; background:#c0392b; color:#fff; border:none; border-radius:6px; cursor:pointer;">
+              🗑️ Hapus Barang
+            </button>
+          </div>
+        </div>
+
+        <!-- 🔹 Tanggal Peminjaman -->
+        <div style="display:flex;align-items:center;margin:10px 0;gap:15px;">
+          <p style="margin:0;font-weight:bold;min-width:160px;opacity:0.7;">Tanggal Peminjaman</p>
+          <input type="date" id="bm_tanggalPeminjaman" required style="padding:8px 12px;border:1px solid #ccc;border-radius:8px;font-size:14px;">
+        </div>
+
+        <!-- 🔹 Keperluan -->
+        <input type="text" id="bm_keperluanInput" placeholder="Keperluan" required>
+
+        <!-- 🔹 Kamera & Foto -->
+        <div id="bm_cameraContainer" style="text-align:center;margin:15px 0;">
+          <p style="font-weight:bold;opacity:0.7;">Ambil Foto Pengambilan (Wajah & Barang)</p>
+          <video id="bm_camera" autoplay playsinline style="width:250px;border:1px solid #ccc;border-radius:8px;"></video>
+
+          <!-- Login Google -->
+          <div style="text-align:center;margin:15px 0;">
+            <button type="button" id="bm_loginBtn" style="padding:8px 15px;background:#27ae60;color:white;border:none;border-radius:6px;cursor:pointer;">
+              🔑 Login dengan Google
+            </button>
+          </div>
+
+          <!-- Ambil Foto -->
+          <div style="margin-top:10px;">
+            <button type="button" id="bm_captureBtn" disabled style="padding:8px 15px;background:#4a90e2;color:white;border:none;border-radius:6px;cursor:pointer;">
+              📸 Ambil Foto
+            </button>
+          </div>
+
+          <!-- Upload Foto -->
+          <div style="margin-top:10px;">
+            <button type="button" id="bm_uploadBtn" disabled style="padding:8px 15px;background:#f39c12;color:white;border:none;border-radius:6px;cursor:pointer;">
+              ☁️ Upload ke Drive
+            </button>
+          </div>
+
+          <canvas id="bm_canvas" style="display:none;"></canvas>
+
+          <div class="bm_preview">
+            <img id="bm_previewImage" alt="Preview Foto">
+            <p id="bm_uploadInfo" style="font-size:14px;color:#555;margin-top:8px;">
+              📷 Belum ada foto diambil
+            </p>
+          </div>
+
+          <input type="hidden" id="bm_fotoPengambilan" name="fotoPengambilan">
+          <div id="bm_uploadDebug" style="margin-top:5px; color:blue; font-size: 0px;"></div>
+        </div>
+
+        <!-- 🔹 Tombol Submit -->
+        <button type="submit" class="bm_submitBtn" style="width:100%;padding:12px 15px;margin-top:15px;background:linear-gradient(90deg,#4a90e2,#357abd);color:#fff;border:none;border-radius:8px;font-weight:bold;font-size:16px;cursor:pointer;">
+          Simpan
+        </button>
+
+      </form>
+    </div>
+  </main>
+</section>
+
+<!-- Google Identity Services -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>

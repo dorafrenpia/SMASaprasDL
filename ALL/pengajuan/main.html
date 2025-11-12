@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Form Input Keperluan</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      padding: 20px;
+    }
+    form, table {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+      max-width: 900px;
+      margin: 20px auto;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    input, textarea, select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 15px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th {
+      background: #007bff;
+      color: white;
+    }
+    .admin-only,
+    .user-only {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h2 style="text-align:center;">Form Input Keperluan</h2>
+
+  <form id="keperluanForm">
+
+    <!-- 🧍 Bagian untuk murid/guru/organisasi -->
+    <div class="user-only">
+      <label>Keperluan:</label>
+      <input type="text" id="keperluan" />
+
+      <label>Qty:</label>
+      <input type="number" id="qty" />
+
+      <label>Satuan:</label>
+      <input type="text" id="satuan" />
+
+      <label>Harga Satuan:</label>
+      <input type="text" id="harga" placeholder="Rp ..." />
+
+      <label>Catatan Keperluan Perdivisi:</label>
+      <textarea id="catatan" rows="3"></textarea>
+    </div>
+
+    <!-- 🧑‍💼 Bagian untuk Admin / IT -->
+    <div class="admin-only">
+      <label>ACC:</label>
+      <select id="acc">
+        <option value="">-- Pilih --</option>
+        <option value="ACC">ACC</option>
+        <option value="Pending">Pending</option>
+      </select>
+
+      <label>Catatan Manajemen dan Sapras:</label>
+      <textarea id="catatanManajemen"></textarea>
+
+      <label>Pengecekan Sapras:</label>
+      <select id="pengecekan">
+        <option value="">-- Pilih --</option>
+        <option value="Ada Terpenuhi">Ada Terpenuhi</option>
+        <option value="Belum Ada">Belum Ada</option>
+      </select>
+
+      <label>Kategori:</label>
+      <input type="text" id="kategori" />
+
+      <label>PIC:</label>
+      <input type="text" id="pic" />
+    </div>
+
+    <button type="submit">Tambah</button>
+  </form>
+
+  <table id="tabelKeperluan">
+    <thead>
+      <tr>
+        <th>No</th>
+        <th>Keperluan</th>
+        <th>Qty</th>
+        <th>Satuan</th>
+        <th>Harga Satuan</th>
+        <th>Catatan Perdivisi</th>
+        <th>ACC</th>
+        <th>Catatan Manajemen & Sapras</th>
+        <th>Pengecekan Sapras</th>
+        <th>Kategori</th>
+        <th>PIC</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    const form = document.getElementById('keperluanForm');
+    const tbody = document.querySelector('#tabelKeperluan tbody');
+    const adminFields = document.querySelectorAll('.admin-only');
+    const userFields = document.querySelectorAll('.user-only');
+    let no = 1;
+
+    // 🔍 Ambil role user dari localStorage
+    const userLogin = JSON.parse(localStorage.getItem('userLogin'));
+    const role = userLogin?.role || "";
+
+    // 🧠 Atur tampilan berdasarkan role
+    if (role === "admin" || role === "IT") {
+      // Admin hanya melihat bagian admin-only
+      adminFields.forEach(el => el.style.display = "block");
+      userFields.forEach(el => el.style.display = "none");
+    } 
+    else if (role === "murid" || role === "guru" || role === "organisasi") {
+      // User hanya melihat bagian user-only
+      userFields.forEach(el => el.style.display = "block");
+      adminFields.forEach(el => el.style.display = "none");
+    } 
+    else {
+      alert("Role tidak dikenali atau belum login!");
+      window.location.href = "../../LandingPage/html/main.html";
+    }
+
+    // 🧾 Saat submit form
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      let keperluan = "-", qty = "-", satuan = "-", harga = "-", catatan = "-";
+      let acc = "-", catatanManajemen = "-", pengecekan = "-", kategori = "-", pic = "-";
+
+      if (role === "murid" || role === "guru" || role === "organisasi") {
+        keperluan = document.getElementById('keperluan').value;
+        qty = document.getElementById('qty').value;
+        satuan = document.getElementById('satuan').value;
+        harga = document.getElementById('harga').value;
+        catatan = document.getElementById('catatan').value;
+      } else if (role === "admin" || role === "IT") {
+        acc = document.getElementById('acc').value;
+        catatanManajemen = document.getElementById('catatanManajemen').value;
+        pengecekan = document.getElementById('pengecekan').value;
+        kategori = document.getElementById('kategori').value;
+        pic = document.getElementById('pic').value;
+      }
+
+      const row = `
+        <tr>
+          <td>${no++}</td>
+          <td>${keperluan}</td>
+          <td>${qty}</td>
+          <td>${satuan}</td>
+          <td>${harga}</td>
+          <td>${catatan}</td>
+          <td>${acc}</td>
+          <td>${catatanManajemen}</td>
+          <td>${pengecekan}</td>
+          <td>${kategori}</td>
+          <td>${pic}</td>
+        </tr>
+      `;
+
+      tbody.insertAdjacentHTML('beforeend', row);
+      form.reset();
+    });
+  </script>
+
+</body>
+</html>

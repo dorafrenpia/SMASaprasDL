@@ -1,0 +1,75 @@
+<main>
+  <div class="db_dashboard-container">
+    <h2>Database</h2>
+    <div id="db_status">⏳ Memuat data...</div>
+
+    <!-- Tombol Filter & Export -->
+    <div style="margin-bottom:10px;">
+      <button id="db_exportBtn" style="margin-top: 20px;">Export ke Excel</button>
+    </div>
+    <button id="db_exportSheetBtn">Export ke Google Sheet</button>
+    <button id="db_goToSheetBtn" style="display:none; margin-left:10px; margin-top:10px;">Buka Google Sheet</button>
+
+    <button id="db_openFilter" class="db_filter-btn">Filter</button>
+
+    <!-- Popup Modal Filter -->
+    <div id="db_filterModal" class="db_modal">
+      <div class="db_modal-content">
+        <span id="db_closeFilter" class="db_close">&times;</span>
+        <div class="db_filter-container">
+          <h3>Filter Data Barang</h3>
+          <label for="db_searchInput">Cari Barang (Kode / Nama / Merek):</label>
+          <input type="text" id="db_searchInput" placeholder="Ketik kode, nama, atau merek...">
+          <label for="db_searchTanggalBarang">Tanggal Barang:</label>
+          <input type="date" id="db_searchTanggalBarang">
+          <label for="db_searchTanggalInput">Tanggal Input Sistem:</label>
+          <input type="date" id="db_searchTanggalInput">
+
+          <div class="db_checkbox-container">
+            <label>
+              <input type="checkbox" id="db_filterStokHabis">
+              Tampilkan hanya stok yang tersedia
+            </label>
+            <label>
+              <input type="checkbox" id="db_markStokHabis">
+              Tandai stok habis
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabel Barang -->
+    <div class="db_table-container">
+      <table id="db_barangTable">
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>Nama Barang <button id="db_sortNamaBtn" class="db_sort-btn">⇅</button></th>
+            <th>Merek <button id="db_sortMerekBtn" class="db_sort-btn">⇅</button></th>
+            <th>Jumlah <button id="db_sortJumlahBtn" class="db_sort-btn">⇅</button></th>
+            <th>Kategori
+              <select id="db_kategoriDropdown">
+                <option value="">-- Pilih kategori --</option>
+                <option value="__tambah__">➕ Tambah kategori baru...</option>
+              </select>
+            </th>
+            <th>Satuan
+              <select id="db_satuanDropdown">
+                <option value="">-- Pilih satuan --</option>
+              </select>
+            </th>
+
+            <!-- 🔹 Kolom baru untuk Foto -->
+            <th>Foto</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Data akan diisi secara dinamis dengan JavaScript -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>
+
+<script type="module" src="../../js/databarangmasuk.js"></script>

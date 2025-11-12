@@ -1,0 +1,187 @@
+/* === HEADER DASAR === */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(to right, #00c6ff, #0072ff);
+  color: #fff;
+  padding: 20px 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+  transition: background 0.3s ease;
+}
+
+header.scrolled {
+  background: #0072ff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+header .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+}
+
+header .logo img {
+  height: 50px;
+  width: auto;
+  margin-right: 10px;
+  vertical-align: middle;
+  transition: height 0.3s ease;
+}
+
+/* Responsive: jika layar kecil, kecilkan logo */
+@media(max-width: 768px){
+  header .logo img {
+    height: 40px;
+    margin-right: 8px;
+  }
+}
+
+/* === NAVIGATION === */
+nav a {
+  margin-left: 20px;
+  font-weight: 500;
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+nav a:hover {
+  color: #00ffff;
+}
+
+.btn-login {
+  padding: 8px 20px;
+  background: #00ffff;
+  color: #0072ff;
+  border-radius: 20px;
+  font-weight: 600;
+  transition: background 0.3s, color 0.3s;
+  text-decoration: none;
+    cursor: pointer; /* <-- tambahkan ini */
+}
+
+.btn-login:hover {
+  background: #0072ff;
+  color: #00ffff;
+}
+
+/* === HAMBURGER TOGGLE (Mobile) === */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 28px;
+  height: 22px;
+  cursor: pointer;
+  z-index: 1002;
+}
+
+.menu-toggle span {
+  display: block;
+  height: 4px;
+  background: #fff;
+  border-radius: 2px;
+  transition: all 0.4s ease;
+}
+
+/* Animasi Hamburger ke X */
+.menu-toggle.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.menu-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-toggle.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+/* Awal: sidebar di kanan luar layar */
+.side-nav {
+  position: fixed;
+  top: 0;
+  right: 0;
+  transform: translateX(100%); /* geser keluar */
+  width: 250px;
+  height: 100%;
+  background: #0072ff;
+  display: flex;
+  flex-direction: column;
+  padding: 60px 20px;
+  transition: transform 0.4s ease;
+  z-index: 9999;
+}
+
+/* Saat muncul: geser ke dalam */
+.side-nav.show {
+  transform: translateX(0);
+}
+
+/* Overlay untuk blur belakang */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease;
+  z-index: 999;
+}
+
+.overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.side-nav a {
+  color: #fff;
+  margin: 15px 0;
+  font-size: 1.2rem;
+  text-decoration: none;
+  transition: transform 0.3s ease, color 0.3s;
+}
+
+.side-nav a:hover {
+  color: #00ffff;
+  transform: translateX(5px);
+}
+
+/* === OVERLAY (Background Blur) === */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  backdrop-filter: blur(5px);
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease;
+}
+
+.overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  nav {
+    display: none;
+  }
+
+  .menu-toggle {
+    display: flex;
+  }
+}

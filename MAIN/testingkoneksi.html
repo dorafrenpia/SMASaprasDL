@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cek Koneksi Firebase</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 2rem; }
+    #status { margin-top: 1rem; font-weight: bold; }
+    .success { color: green; }
+    .error { color: red; }
+  </style>
+</head>
+<body>
+  <h1>Cek Koneksi Firebase</h1>
+  <div id="status">Loading...</div>
+
+  <script type="module">
+    import { db } from './firebase.js';
+    import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js";
+
+    const statusEl = document.getElementById("status");
+
+    async function cekKoneksi() {
+      try {
+        // Cek Firestore dengan ambil salah satu koleksi dummy
+        const testCollection = collection(db, "test");
+        await getDocs(testCollection);
+
+        statusEl.textContent = "✔ Terhubung ke Firebase dan Firestore!";
+        statusEl.className = "success";
+      } catch (err) {
+        console.error(err);
+        statusEl.textContent = "❌ Gagal terhubung ke Firebase: " + err.message;
+        statusEl.className = "error";
+      }
+    }
+
+    cekKoneksi();
+  </script>
+</body>
+</html>

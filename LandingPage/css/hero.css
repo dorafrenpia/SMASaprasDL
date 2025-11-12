@@ -1,0 +1,86 @@
+/* ===== HERO ===== */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh; /* fullscreen */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  overflow: hidden;
+  color: #fff;
+  padding: 0 20px;
+}
+
+/* Gradient animasi (akan dikontrol JS) */
+.hero-gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  background: linear-gradient(90deg, #00c6ff, #0072ff); /* warna awal */
+}
+
+/* Background image hero */
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('https://images.unsplash.com/photo-1596496058652-1bdfcb90b2f2?auto=format&fit=crop&w=1470&q=80') center/cover no-repeat;
+  z-index: -1; /* di bawah gradien */
+  filter: brightness(0.7); /* supaya teks lebih terbaca */
+}
+
+/* Overlay gelap agar teks terbaca */
+.hero::after {
+  content: '';
+  position: absolute;
+  top:0; left:0;
+  width:100%; height:100%;
+  background: rgba(0,0,0,0.3);
+  z-index:1;
+}
+
+/* Konten hero di atas semua */
+.hero-content {
+  position: relative;
+  z-index: 2;
+  animation: fadeIn 2s ease-in-out;
+}
+
+/* Teks hero */
+.hero h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+}
+
+/* Button hero */
+.hero .btn-hero {
+  padding: 12px 30px;
+  background: #ffffff;
+  color: #0072ff;
+  border-radius: 30px;
+  font-weight: bold;
+  transition: background 0.3s, color 0.3s;
+  text-decoration: none;
+}
+
+.hero .btn-hero:hover {
+  background: #0072ff;
+  color: #00ffff;
+}
+
+/* Animasi fadeIn teks */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px);}
+  to { opacity: 1; transform: translateY(0);}
+}

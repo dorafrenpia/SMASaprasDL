@@ -1,0 +1,42 @@
+/* ===== Responsive ===== */
+
+/* Hamburger muncul di layar kecil */
+@media (max-width: 1024px) {
+  .hamburger {
+    display: inline-block;
+  }
+
+  /* Sidebar toggle */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: 100;
+  }
+
+  .sidebar.show {
+    transform: translateX(0);
+  }
+
+  /* Main content tetap */
+  .main-content {
+    margin-left: 0;
+  }
+
+  /* Mobile header muncul */
+  .mobile-header {
+    display: flex;
+  }
+}
+
+/* Charts dan cards di layar kecil */
+@media (max-width: 768px) {
+  .charts {
+    grid-template-columns: 1fr;
+  }
+  .cards {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard SAPRAS SMADL</title>
+
+  <!-- Link CSS modular -->
+  <link rel="stylesheet" href="../css/header.css">
+  <link rel="stylesheet" href="../css/sidebar.css">
+  <link rel="stylesheet" href="../css/cards.css">
+  <link rel="stylesheet" href="../css/charts.css">
+  <link rel="stylesheet" href="../css/table.css">
+  <link rel="stylesheet" href="../css/footer.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+<link rel="stylesheet" href="../../../../MAIN/main.css">
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <!-- Overlay Sidebar untuk layar kecil -->
+  <div id="sidebar-overlay"></div>
+
+ <!-- Header untuk mobile (muncul hanya di layar kecil) -->
+<header class="header mobile-header">
+  <div class="header-left">
+    <button class="hamburger" id="hamburger-btn">☰</button>
+    <img src="../../MAIN/image/logodharmaloka.png" alt="LogoDL">
+    <h1>guru</h1>
+  </div>
+
+  <div class="header-right">
+    <div class="notification">
+      🔔 <span class="badge">3</span>
+    </div>
+    <div class="profile">
+      <!-- Tambahkan foto profil jika perlu -->
+    </div>
+    <button class="logout-btn"id="logout-btn">Logout</button>
+  </div>
+</header>
+
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <h2>SAPRAS SMADL</h2>
+    </div>
+    <nav class="sidebar-menu">
+      <a href="#" class="active">Dashboard</a>
+      <a href="#">Data Guru</a>
+      <a href="#">Data Siswa</a>
+      <a href="#">Data Sarpras</a>
+      <a href="#">Pengajuan / Laporan</a>
+      <a href="#">Pengaturan</a>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Cards Summary -->
+    <section class="cards">
+      <div class="card">
+        <h3>Total Guru</h3>
+        <p>20</p>
+      </div>
+      <div class="card">
+        <h3>Total Siswa</h3>
+        <p>420</p>
+      </div>
+      <div class="card">
+        <h3>Total Ruangan</h3>
+        <p>35</p>
+      </div>
+      <div class="card">
+        <h3>Barang Rusak</h3>
+        <p>12</p>
+      </div>
+      <div class="card">
+        <h3>Permintaan Baru</h3>
+        <p>5</p>
+      </div>
+    </section>
+
+    <!-- Charts Section -->
+    <section class="charts">
+      <div class="chart-container">
+        <h3>Jumlah Siswa per Kelas</h3>
+        <canvas id="siswaChart"></canvas>
+      </div>
+      <div class="chart-container">
+        <h3>Kondisi Barang</h3>
+        <canvas id="barangChart"></canvas>
+      </div>
+    </section>
+
+    <!-- Table Section -->
+    <section class="table-section">
+      <h3>Pengajuan Terbaru</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>Nama Barang</th>
+            <th>Status</th>
+            <th>Tanggal Pengajuan</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Proyektor</td>
+            <td>Menunggu</td>
+            <td>20-10-2025</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Kursi Lab</td>
+            <td>Disetujui</td>
+            <td>18-10-2025</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Meja Guru</td>
+            <td>Menunggu</td>
+            <td>19-10-2025</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>© 2025 SAPRAS SMADL. All rights reserved.</p>
+    </footer>
+  </div>
+
+  <script type="module" src="../js/main.js"></script>
+  <!-- Script Chart.js dan Hamburger akan ditambahkan nanti -->
+</body>
+</html>

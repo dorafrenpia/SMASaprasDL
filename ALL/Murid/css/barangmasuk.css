@@ -1,0 +1,205 @@
+
+/* Preview Foto */
+.bm_preview {
+  text-align: center;
+  margin: 15px 0;
+}
+.bm_preview img {
+  max-width: 200px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  display: none;
+  transition: all 0.3s ease;
+}
+  /* Kontainer fullscreen */
+  #bm_imageFullscreen {
+    display: none; /* sembunyikan dulu */
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    left: 0;/* Preview Foto */
+.bm_preview {
+  text-align: center;
+  margin: 15px 0;
+}
+
+#bm_previewImage {
+  display: none; /* 🔴 tersembunyi dulu */
+  max-width: 200px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin: 10px auto;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+#bm_previewImage:hover {
+  transform: scale(1.02);
+}
+
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Gambar fullscreen */
+  #bm_fullImage {
+    max-width: 95%;
+    max-height: 95%;
+    border-radius: 8px;
+  }
+
+  /* Animasi halus */
+  #bm_imageFullscreen.fadeIn {
+    display: flex;
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+    #bm_previewImage {
+    
+    margin: 10px auto;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+
+  #bm_previewImage:hover {
+    transform: scale(1.02);
+  }
+
+  /* Fullscreen Overlay */
+  .fullscreen-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.95);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+
+  .fullscreen-overlay img {
+    max-width: 95vw;
+    max-height: 95vh;
+    object-fit: contain;
+    border-radius: 8px;
+  }
+/* =======================
+  Card Container
+======================= */
+.bm_card-container {
+  max-width: 450px;
+  margin: 40px auto;
+  padding: 25px 30px;
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.bm_card-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+}
+
+.bm_card-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* =======================
+  Form Styling
+======================= */
+.bm_card-form input,
+.bm_card-form select {
+  width: 100%;
+  padding: 10px 15px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+.bm_card-form input:focus,
+.bm_card-form select:focus {
+  border-color: #4a90e2;
+  box-shadow: 0 0 8px rgba(74,144,226,0.3);
+  outline: none;
+}
+
+/* Labels */
+.bm_card-form label {
+  display: block;
+  margin: 10px 0 5px;
+  font-weight: bold;
+  color: #555;
+}
+
+/* Buttons */
+.bm_buttons {
+  display: flex;
+  gap: 10px;
+  margin: 15px 0;
+}
+.bm_buttons button,
+.bm_submitBtn {
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+#bm_loginBtn {
+  background: #4CAF50;
+  color: #fff;
+}
+#bm_loginBtn:hover {
+  background: #45a049;
+}
+#bm_sendBtn {
+  background: #2196F3;
+  color: #fff;
+  transition: all 0.3s ease;
+}
+
+#bm_sendBtn:hover:not(:disabled) {
+  background: #1976d2;
+}
+
+/* Saat tombol nonaktif (abu-abu) */
+#bm_sendBtn:disabled {
+  background: #b0b0b0;
+  color: #eee;
+  cursor: not-allowed;
+  opacity: 0.9;
+}
+
+.bm_submitBtn {
+  width: 100%;
+  background: linear-gradient(90deg, #4a90e2, #357abd);
+  color: #fff;
+  margin-top: 10px;
+}
+.bm_submitBtn:hover {
+  opacity: 0.9;
+}
+
+
+
+#bm_previewLabel {
+  display: none; /* sembunyikan teks "Preview Foto:" awalnya */
+}
+#bm_previewImage {
+  display: none; /* sembunyikan gambar juga di awal */
+}
