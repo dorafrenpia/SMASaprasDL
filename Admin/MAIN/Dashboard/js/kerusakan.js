@@ -1,78 +1,9 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Daftar Barang Rusak</title>
-<link rel="stylesheet" href="pdf.css">
-<style>
- 
-  table { border-collapse: collapse; width: 100%; }
-  table, th, td { border: 1px solid #333; }
-  th, td { padding: 8px; text-align: left; }
-  tr.selected { background-color: #d1e7dd; }
-  tr:hover { background-color: #f1f1f1; cursor: pointer; }
-  .btn-preview { margin-top: 10px; padding: 5px 10px; }
-  .status-btn { padding: 2px 5px; margin: 0; }
- </style>
-</head>
-<body>
-<div id="editPopup" style="
-    display:none;
-    position:fixed;
-    top:0;
-    z-index: 1001;
-    left:0;
-    width:100%;
-    height:100%;
-    background: rgba(0,0,0,0.5);
-    justify-content:center;
-    align-items:center;
-    overflow:auto;
-    padding:20px;
-    box-sizing:border-box;
-">
-  <div style="
-      background:white;
-      padding:20px;
-      width:100%;
-      max-width:500px;
-      border-radius:8px;
-      max-height:90vh;
-      overflow-y:auto;
-      box-sizing:border-box;
-  ">
-    <h3 style="margin-top:0;">Edit Barang</h3>
-    <form id="editForm" style="display:flex; flex-direction:column; gap:10px;">
-      <label>Nama Barang: <input type="text" name="namaBarang" required></label>
-      <label>Spesifikasi: <input type="text" name="spesifikasi"></label>
-      <label>Jumlah: <input type="number" name="jumlah" min="1"></label>
-      <label>Lokasi: <input type="text" name="lokasiBarang"></label>
-      <label>Kondisi: <input type="text" name="kondisi"></label>
-      <label>Tindakan: <input type="text" name="tindakan"></label>
-      <label>Foto Link: <input type="text" name="fotoLink"></label>
-      <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:10px;">
-        <button type="submit">Simpan</button>
-        <button type="button" id="closePopup">Batal</button>
-      </div>
-    </form>
-  </div>
-</div>
 
 
-<h2>📝 Daftar Barang Kerusakan</h2>
-
-<div id="tableContainer"></div>
-<button class="btn-preview" id="btnBuatPreview">Buat Preview</button>
-<button class="btn-preview" id="btnSavePDF">Simpan ke PDF</button>
-
-<div id="preview" style="display:none; margin-top:20px;"></div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script type="module">
-import { db3 } from "../../MAIN/firebasesma.js";
+import { db3 } from "../../../../../MAIN/firebasesma.js";
 import { collection, getDocs, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js";
+export function initKerusakanPage() {
+  console.log("✅ Halaman kerusakan siap");
 
 const tableContainer = document.getElementById('tableContainer');
 const btnBuatPreview = document.getElementById('btnBuatPreview');
@@ -302,46 +233,53 @@ btnBuatPreview.addEventListener('click', () => {
       namaHari = hariArray[date.getDay()];
       tanggalText = date.toLocaleDateString('id-ID', { day:'numeric', month:'long', year:'numeric' });
     }
-
-    let tableHTML = `
-    
-      <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse; width: 100%;">
-        <thead>
-          <tr>
-            <th>No.</th>
-            <th>Nama Barang/Peralatan</th>
-            <th>Spesifikasi</th>
-            <th>Jumlah</th>
-            <th>Lokasi</th>
-            <th>Kondisi</th>
-            <th>Tindakan yang Akurat</th>
-          </tr>
-        </thead>
-        <tbody>
-    `;
-
-    items.forEach((b,i) => {
-      tableHTML += `
+let tableHTML = `
+  <div class="table-wrapper">
+    <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse; width: 100%;">
+      <thead>
         <tr>
-          <td>${i+1}</td>
-          <td>${b.namaBarang}</td>
-          <td>${b.spesifikasi}</td>
-          <td>${b.jumlah}</td>
-          <td>${b.lokasiBarang}</td>
-          <td>${b.kondisi}</td>
-          <td>${b.tindakan}</td>
+          <th>No.</th>
+          <th>Nama Barang/Peralatan</th>
+          <th>Spesifikasi</th>
+          <th>Jumlah</th>
+          <th>Lokasi</th>
+          <th>Kondisi</th>
+          <th>Tindakan yang Akurat</th>
         </tr>
-      `;
-    });
-    tableHTML += `</tbody></table>`;
+      </thead>
+      <tbody>
+`;
+
+items.forEach((b, i) => {
+  tableHTML += `
+    <tr>
+      <td>${i+1}</td>
+      <td>${b.namaBarang}</td>
+      <td>${b.spesifikasi}</td>
+      <td>${b.jumlah}</td>
+      <td>${b.lokasiBarang}</td>
+      <td>${b.kondisi}</td>
+      <td>${b.tindakan}</td>
+    </tr>
+  `;
+});
+
+tableHTML += `</tbody></table></div>`;
 
     const divPreview = document.createElement("div");
     divPreview.classList.add("a4");
     divPreview.innerHTML = `
       <div class="content">
-        <p>Pada hari <b>${namaHari}</b> tanggal <b>${tanggalText}</b>, telah terjadi kerusakan pada beberapa perangkat berikut:</p>
-        ${tableHTML}
-        <p>Barang-barang tersebut dilaporkan rusak oleh <b>${pelapor}</b> dan telah dilakukan pengecekan awal untuk memastikan kondisi alat.</p>
+      <xbr>
+       <p style="text-indent: 40px;">
+  Pada hari <b>${namaHari}</b> tanggal <b>${tanggalText}</b>, telah terjadi kerusakan pada beberapa perangkat berikut:
+</p>
+${tableHTML}
+        <br>
+        <br>
+        <p style="text-indent: 40px;">Barang-barang tersebut dilaporkan rusak oleh <b>${pelapor}</b> dan telah dilakukan pengecekan awal untuk memastikan kondisi alat.</p>
+       
+        <br>
         <p>Demikian berita acara ini dibuat dengan sebenar-benarnya untuk dapat digunakan sebagaimana mestinya.</p>
       </div>
       <div class="signature">
@@ -351,7 +289,7 @@ btnBuatPreview.addEventListener('click', () => {
           <br><br><br>
           <p style="padding-top: 15px !important;"><u>Apriasih</u></p>
         </div>
-        <div>
+              <div style="box-sizing:unset !important">
           <p>Yang Melaporkan,</p>
           <br><br><br><br>
           <p><u>${pelapor}</u></p>
@@ -387,10 +325,5 @@ btnSavePDF.addEventListener('click', async () => {
 
 // Load data saat halaman dibuka
 loadData();
-</script>
 
-
-
-
-</body>
-</html>
+}

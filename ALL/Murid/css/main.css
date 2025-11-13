@@ -12,7 +12,9 @@
   align-items: center;
   z-index: 2000;
 }
-
+ body{
+    font-family: 'Roboto', sans-serif !important; 
+  }
 .popup-content {
   background: #fff;
   padding: 20px;

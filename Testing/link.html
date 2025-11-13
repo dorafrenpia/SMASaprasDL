@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QR Code Nyatu dengan Logo</title>
+<style>
+    body { font-family: Arial; text-align: center; margin-top: 50px; }
+    input, button { padding: 10px; font-size: 16px; width: 300px; margin-bottom: 10px; }
+    canvas { margin-top: 20px; }
+</style>
+</head>
+<body>
+<h1>QR Code Nyatu dengan Logo</h1>
+<input type="text" id="linkInput" value="https://youtube.com" placeholder="Masukkan link...">
+<br>
+<button onclick="generateQRCode()">Generate QR Code</button>
+<br>
+<canvas id="qrcanvas"></canvas>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+function generateQRCode() {
+    const link = document.getElementById('linkInput').value;
+    const canvas = document.getElementById('qrcanvas');
+    const ctx = canvas.getContext('2d');
+
+    // Buat QRCode ke div sementara
+    const tempDiv = document.createElement('div');
+    const qrcode = new QRCode(tempDiv, {
+        text: link,
+        width: 300,
+        height: 300,
+        correctLevel: QRCode.CorrectLevel.H
+    });
+
+    // Tunggu QRCode dibuat
+    setTimeout(() => {
+        // Ambil QR dari img
+        const img = tempDiv.querySelector('img');
+
+        // Set canvas ukuran sama
+        canvas.width = img.width;
+        canvas.height = img.height;
+
+        // Gambar QR ke canvas
+        const qrImg = new Image();
+        qrImg.src = img.src;
+        qrImg.onload = () => {
+            ctx.drawImage(qrImg, 0, 0, canvas.width, canvas.height);
+
+            // Gambar logo di tengah
+            const logo = new Image();
+            logo.src = './sma.png'; // ganti logo
+            logo.onload = () => {
+                const logoSize = canvas.width * 0.4; // 25% dari QR
+                const x = (canvas.width - logoSize) / 2;
+                const y = (canvas.height - logoSize) / 2;
+                ctx.drawImage(logo, x, y, logoSize, logoSize);
+            }
+        }
+    }, 100);
+}
+
+// Generate awal
+generateQRCode();
+</script>
+</body>
+</html>

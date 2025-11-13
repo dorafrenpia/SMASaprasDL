@@ -1,7 +1,24 @@
 
-<section>
-    <style>
-        
+<style>
+  table { border-collapse: collapse; width: 100%; }
+  table, th, td { border: 1px solid #333; }
+  th, td { padding: 8px; text-align: left; }
+  tr.selected { background-color: #d1e7dd; }
+  tr:hover { background-color: #f1f1f1; cursor: pointer; }
+  .btn-preview { margin-top: 10px; padding: 5px 10px; }
+  .status-btn { padding: 2px 5px; margin: 0; }
+  .table-wrapper table {
+  table-layout: fixed;       /* kolom tidak melebar otomatis */
+  width: 100%;
+  font-size: 12px;           /* bisa dikecilkan agar muat */
+}
+
+.table-wrapper th, .table-wrapper td {
+  word-wrap: break-word;     /* pecah kata jika terlalu panjang */
+  text-align: center;
+  padding: 4px;
+}
+
     /* === TEMPLATE SURAT A4 === */
     .a4 {
       width: 210mm;
@@ -13,7 +30,15 @@
       box-sizing: border-box;
       padding-top: 280px; /* ruang di bawah header */
     }
-   
+    body {
+      background: #f0f0f0;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    h2 { margin-top: 20px; }
+
     form {
       background: white;
       width: 90%;
@@ -71,105 +96,59 @@
       display: inline-block;
       width: 200px;
     }
-    table { width: 100%; border-collapse: collapse; margin: 15px 0; text-align: center; }
-    table, th, td { border: 1px solid black; }
-    th, td { padding: 6px; }
-   .add-btn { margin-top: 10px; padding: 6px 12px; background: #007bff; color: #fff; border: none; cursor: pointer; }
-
-   
-    </style>
-
-  <h2 style="text-align: center; margin-top: 20px;">📝 Form Berita Acara Kerusakan</h2>
-
-  <form id="formData">
-    <input type="hidden" id="hari" required>
-
-    <label>Tanggal Kejadian:</label>
-    <input type="date" id="tanggalLengkap" required>
-
-    <label>Nama Barang:</label>
-    <input type="text" id="namaBarang" required>
-
-    <label>Spesifikasi:</label>
-    <input type="text" id="spesifikasi" required>
-
-    <label>Jumlah:</label>
-    <input type="number" id="jumlah" required>
-
-    <label>Lokasi:</label>
-    <input type="text" id="lokasiBarang" required>
-
-    <label>Kondisi:</label>
-    <input type="text" id="kondisi" required>
-
-    <label>Foto Barang:</label>
-    <input type="file" id="bm_fotoInput" accept="image/*" disabled>
-    <button type="button" id="bm_loginBtn" style="margin-top: 10px;">Login Google Drive</button>
-    <button type="button" id="bm_sendBtn" disabled
-    style="
-    margin-top: 10px;
-        background-color: #3498db;
-        color: white;
-        border: 2px solid #2980b9;
-        border-radius: 8px;
-        padding: 8px 16px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        opacity: 0.6;
-        margin-left: 20px !important; 
-    "
-    onmouseover="if(!this.disabled)this.style.opacity='0.8';"
-    onmouseout="if(!this.disabled)this.style.opacity='1';"
->
-    Upload Foto ke Drive
-</button>
-
-    <p id="bm_uploadInfo">📷 Belum ada foto diupload</p>
-    <img id="bm_previewImage" style="display:none; width:150px; margin-top:10px;">
-<button type="button" class="add-btn" id="btnTambahBarang" disabled
-    style="
-        background-color: #ff0000;
-        color: white;
-        border: 2px solid #ff0000;
-        border-radius: 8px;
-        padding: 8px 16px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        opacity: 0.6;
-    "
-    onmouseover="if(!this.disabled)this.style.opacity='0.8';"
-    onmouseout="if(!this.disabled)this.style.opacity='1';"
->
-    + Tambahkan Barang Rusak
-</button>
-
-    <label>Tindakan yang Akurat:</label>
-    <input type="text" id="tindakan" required>
-<!-- Table daftar barang rusak -->
-<div id="daftarBarangWrapper" style="margin-top:10px; max-height:300px; overflow-y:auto; border:1px solid #ccc; ">
-  <div id="daftarBarangContainer"></div>
+   </style>
+</head>
+<body>
+<div id="editPopup" style="
+    display:none;
+    position:fixed;
+    top:0;
+    z-index: 1001;
+    left:0;
+    width:100%;
+    height:100%;
+    background: rgba(0,0,0,0.5);
+    justify-content:center;
+    align-items:center;
+    overflow:auto;
+    padding:20px;
+    box-sizing:border-box;
+">
+  <div style="
+      background:white;
+      padding:20px;
+      width:100%;
+      max-width:500px;
+      border-radius:8px;
+      max-height:90vh;
+      overflow-y:auto;
+      box-sizing:border-box;
+  ">
+    <h3 style="margin-top:0;">Edit Barang</h3>
+    <form id="editForm" style="display:flex; flex-direction:column; gap:10px;">
+      <label>Nama Barang: <input type="text" name="namaBarang" required></label>
+      <label>Spesifikasi: <input type="text" name="spesifikasi"></label>
+      <label>Jumlah: <input type="number" name="jumlah" min="1"></label>
+      <label>Lokasi: <input type="text" name="lokasiBarang"></label>
+      <label>Kondisi: <input type="text" name="kondisi"></label>
+      <label>Tindakan: <input type="text" name="tindakan"></label>
+      <label>Foto Link: <input type="text" name="fotoLink"></label>
+      <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:10px;">
+        <button type="submit">Simpan</button>
+        <button type="button" id="closePopup">Batal</button>
+      </div>
+    </form>
+  </div>
 </div>
 
-    <input type="hidden" id="melapor" required>
-  </form>
 
-  <div class="a4" id="preview" style="display:none;">
-    <div class="content" id="isiSurat"></div>
+<h2>📝 Daftar Barang Kerusakan</h2>
 
-    <div class="signature">
-      <div>
-        <p>Yang Mengetahui,</p>
-        <p><b>Koordinator Sarana Prasarana</b></p>
-        <br><br><br>
-        <p style="padding-top: 15px !important; "><u id="tandaMengetahui">____________________</u></p>
-      </div>
-      <div><br>
-        <p>Yang Melaporkan,</p>
-        <br><br><br><br>
-        <p><u id="tandaMelapor">____________________</u></p>
-      </div>
-    </div>
-  </div>
-<script src="https://accounts.google.com/gsi/client" async defer></script>
+<div id="tableContainer"></div>
+<button class="btn-preview" id="btnBuatPreview">Buat Preview</button>
+<button class="btn-preview" id="btnSavePDF">Simpan ke PDF</button>
 
-</section>
+<div id="preview" style="display:none; margin-top:20px;"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>

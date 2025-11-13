@@ -57,9 +57,19 @@ document.addEventListener("DOMContentLoaded", () => {
           bmModule.initDataBarangMasuk();  // Fungsi dari barangmasuk.js
 
         }
+         // =====================================================
+        // 🧾 HALAMAN KERUSAKAN
+        // =====================================================
+        else if (page === "kerusakan") {
+          const kerusakanModule = await import(`../js/kerusakan.js`);
+          if (kerusakanModule.initKerusakanPage) {
+            setTimeout(() => kerusakanModule.initKerusakanPage(), 50);
+          }
+        }
       } catch (err) {
         mainContent.innerHTML = `<p style="color:red;">⚠️ Gagal memuat halaman: ${err.message}</p>`;
       }
+      
     });
   });
 });

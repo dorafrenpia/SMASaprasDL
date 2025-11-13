@@ -16,7 +16,6 @@ table th, table td {
   padding: 12px 15px;
   border: 1px solid #ddd;
   text-align: center;
-  white-space: nowrap;
 }
 
 table th {
