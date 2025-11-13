@@ -31,13 +31,16 @@ document.addEventListener("DOMContentLoaded", () => {
         if (page === "koneksi") {
           const koneksiModule = await import(`./koneksi.js`);
           koneksiModule.initFirebaseCheckButton();
-        } else if (page === "data") {
+        } 
+        else if (page === "data") {
           const bmModule = await import(`../js/tampilkandatapengajuan.js`);
           bmModule.loadMyPengajuan();
-        } else if (page === "history") {
+        } 
+        else if (page === "history") {
           const bmModule = await import(`../js/tampilkandatapengembalian.js`);
           bmModule.loadMyPengajuan();
-        } else if (page === "users") {
+        } 
+        else if (page === "users") {
           const userModule = await import(`../../../LandingPage/registerjavascript/murid.js`);
           if (userModule.initUsersPage) userModule.initUsersPage();
         } 
@@ -57,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
           }
 
           // =====================================================
-          // 🔹 Auto-isi form userLogin
+          // 🔹 Auto-isi form userLogin (khusus pengajuan)
           // =====================================================
           try {
             const userLoginStr = localStorage.getItem("userLogin");
@@ -136,6 +139,15 @@ document.addEventListener("DOMContentLoaded", () => {
             }
           } catch (err) {
             console.error("❌ [loader] Gagal auto-isi form:", err);
+          }
+        } 
+        // =====================================================
+        // 🧾 HALAMAN KERUSAKAN
+        // =====================================================
+        else if (page === "kerusakan") {
+          const kerusakanModule = await import(`../js/kerusakan.js`);
+          if (kerusakanModule.initKerusakanPage) {
+            setTimeout(() => kerusakanModule.initKerusakanPage(), 50);
           }
         }
 

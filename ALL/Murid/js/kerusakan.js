@@ -1,76 +1,8 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Form Berita Acara Kerusakan</title>
-  <link rel="stylesheet" href="pdf.css">
-</head>
-<body>
 
-  <h2>📝 Form Berita Acara Kerusakan</h2>
-
-  <form id="formData">
-    <input type="hidden" id="hari" required>
-
-    <label>Tanggal Kejadian:</label>
-    <input type="date" id="tanggalLengkap" required>
-
-    <label>Nama Barang:</label>
-    <input type="text" id="namaBarang" required>
-
-    <label>Spesifikasi:</label>
-    <input type="text" id="spesifikasi" required>
-
-    <label>Jumlah:</label>
-    <input type="number" id="jumlah" required>
-
-    <label>Lokasi:</label>
-    <input type="text" id="lokasiBarang" required>
-
-    <label>Kondisi:</label>
-    <input type="text" id="kondisi" required>
-
-    <label>Foto Barang:</label>
-    <input type="file" id="bm_fotoInput" accept="image/*" disabled>
-    <button type="button" id="bm_loginBtn">Login Google Drive</button>
-    <button type="button" id="bm_sendBtn" disabled>Upload Foto ke Drive</button>
-    <p id="bm_uploadInfo">📷 Belum ada foto diupload</p>
-    <img id="bm_previewImage" style="display:none; width:150px; margin-top:10px;">
-
-    <label>Tindakan yang Akurat:</label>
-    <input type="text" id="tindakan" required>
-<button type="button" class="add-btn" id="btnTambahBarang" disabled>+ Tambahkan Barang Rusak</button>
-<!-- Table daftar barang rusak -->
-<div id="daftarBarangWrapper" style="margin-top:10px; max-height:300px; overflow-y:auto; border:1px solid #ccc; padding:5px;">
-  <div id="daftarBarangContainer"></div>
-</div>
-
-    <label>Nama Pelapor:</label>
-    <input type="text" id="melapor" required>
-  </form>
-
-  <div class="a4" id="preview" style="display:none;">
-    <div class="content" id="isiSurat"></div>
-
-    <div class="signature">
-      <div>
-        <p>Yang Mengetahui,</p>
-        <p><b>Koordinator Sarana Prasarana</b></p>
-        <br><br><br>
-        <p style="padding-top: 15px !important; "><u id="tandaMengetahui">____________________</u></p>
-      </div>
-      <div><br>
-        <p>Yang Melaporkan,</p>
-        <br><br><br><br>
-        <p><u id="tandaMelapor">____________________</u></p>
-      </div>
-    </div>
-  </div>
-<script src="https://accounts.google.com/gsi/client" async defer></script>
- <script type="module">
-import { db3 } from "../../MAIN/firebasesma.js";
+import { db3 } from "../../../../../../MAIN/firebasesma.js";
 import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js";
+export function initKerusakanPage() {
+  console.log("✅ Halaman kerusakan siap");
 
 const inputs = document.querySelectorAll('#formData input');
 const btnTambahBarang = document.getElementById('btnTambahBarang');
@@ -106,21 +38,48 @@ const previewImage = document.getElementById("bm_previewImage");
 function updateUI(isLoggedIn) {
   if (isLoggedIn) {
     loginBtn.textContent = "Logout Drive";
-    loginBtn.style.backgroundColor = "red";
+    loginBtn.style.backgroundColor = "#e74c3c"; // merah soft
     loginBtn.style.color = "white";
+    loginBtn.style.border = "2px solid #c0392b";
+    loginBtn.style.borderRadius = "8px";
+    loginBtn.style.padding = "8px 16px";
+    loginBtn.style.cursor = "pointer";
+    loginBtn.style.transition = "all 0.3s ease";
+
     fotoInput.disabled = false;
     uploadBtn.disabled = false;
-    uploadInfo.innerHTML = "<br>📷 Pilih Foto dahulu !<br><br> 🟢 Sudah login ke Google Drive.";
+    btnTambahBarang.disabled = false;
+uploadInfo.innerHTML = `<br>📷 Pilih Foto Dahulu!<br>`;
+uploadInfo.style.textAlign = "center"; // ini bikin teks rata tengah
+
+    uploadInfo.style.color = "#000000ff"; // hijau
+    uploadInfo.style.fontWeight = "bold";
+    uploadInfo.style.transition = "all 0.3s ease";
   } else {
     loginBtn.textContent = "Login Google Drive";
-    loginBtn.style.backgroundColor = "";
-    loginBtn.style.color = "";
+    loginBtn.style.backgroundColor = "#34db5eff"; // biru soft
+    loginBtn.style.color = "white";
+    loginBtn.style.border = "2px solid #29b933ff";
+    loginBtn.style.borderRadius = "8px";
+    loginBtn.style.padding = "8px 16px";
+    loginBtn.style.cursor = "pointer";
+    loginBtn.style.transition = "all 0.3s ease";
+
     fotoInput.disabled = true;
     uploadBtn.disabled = true;
     btnTambahBarang.disabled = true;
+
     uploadInfo.textContent = "📷 Belum ada foto diupload";
+    uploadInfo.style.color = "#e67e22"; // orange
+    uploadInfo.style.fontWeight = "bold";
+    uploadInfo.style.transition = "all 0.3s ease";
   }
+
+  // efek hover keren untuk tombol
+  loginBtn.onmouseover = () => loginBtn.style.opacity = "0.8";
+  loginBtn.onmouseout = () => loginBtn.style.opacity = "1";
 }
+
 
 // Inisialisasi token jika sudah login sebelumnya
 const savedToken = localStorage.getItem("accessToken");
@@ -340,8 +299,5 @@ script.onload = () => {
 document.body.appendChild(script);
 
 
-</script>
 
-
-</body>
-</html>
+}

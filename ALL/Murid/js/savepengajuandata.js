@@ -47,7 +47,7 @@ export function initPengajuanPage() {
       uploadInfo.textContent = "❌ Tidak bisa mengakses kamera";
     }
   }
-Z
+
   // ========================================================
   // 🔹 UPDATE UI LOGIN
   // ========================================================

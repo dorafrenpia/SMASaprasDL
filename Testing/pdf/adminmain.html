@@ -20,6 +20,7 @@
     display:none;
     position:fixed;
     top:0;
+    z-index: 1001;
     left:0;
     width:100%;
     height:100%;
@@ -335,8 +336,6 @@ btnBuatPreview.addEventListener('click', () => {
 
     const divPreview = document.createElement("div");
     divPreview.classList.add("a4");
-    divPreview.style.background = "white";
-    divPreview.style.backgroundSize = "cover";
     divPreview.innerHTML = `
       <div class="content">
         <p>Pada hari <b>${namaHari}</b> tanggal <b>${tanggalText}</b>, telah terjadi kerusakan pada beberapa perangkat berikut:</p>
@@ -376,7 +375,7 @@ btnSavePDF.addEventListener('click', async () => {
     const div = previewDivs[i];
     div.style.display = "block";
     const canvas = await html2canvas(div, { scale: 2 });
-    const imgData = canvas.toDataURL('image/png');
+    const imgData = canvas.toDataURL('Tes/png');
     const pdfWidth = pdf.internal.pageSize.getWidth();
     const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
     if(i>0) pdf.addPage();
