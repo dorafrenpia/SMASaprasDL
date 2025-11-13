@@ -60,6 +60,13 @@
       padding: 0 60px;
       font-size: 12pt;
     }
+.signature {
+  position: absolute;
+  bottom: 50px; /* jarak dari bawah halaman */
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+}
 
     .signature p {
       margin: 4px 0;

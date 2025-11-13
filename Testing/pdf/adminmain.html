@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daftar Barang Rusak</title>
+<link rel="stylesheet" href="pdf.css">
+<style>
+  table { border-collapse: collapse; width: 100%; }
+  table, th, td { border: 1px solid #333; }
+  th, td { padding: 8px; text-align: left; }
+  tr.selected { background-color: #d1e7dd; }
+  tr:hover { background-color: #f1f1f1; cursor: pointer; }
+  .btn-preview { margin-top: 10px; padding: 5px 10px; }
+  .status-btn { padding: 2px 5px; margin: 0; }
+ </style>
+</head>
+<body>
+<div id="editPopup" style="
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background: rgba(0,0,0,0.5);
+    justify-content:center;
+    align-items:center;
+    overflow:auto;
+    padding:20px;
+    box-sizing:border-box;
+">
+  <div style="
+      background:white;
+      padding:20px;
+      width:100%;
+      max-width:500px;
+      border-radius:8px;
+      max-height:90vh;
+      overflow-y:auto;
+      box-sizing:border-box;
+  ">
+    <h3 style="margin-top:0;">Edit Barang</h3>
+    <form id="editForm" style="display:flex; flex-direction:column; gap:10px;">
+      <label>Nama Barang: <input type="text" name="namaBarang" required></label>
+      <label>Spesifikasi: <input type="text" name="spesifikasi"></label>
+      <label>Jumlah: <input type="number" name="jumlah" min="1"></label>
+      <label>Lokasi: <input type="text" name="lokasiBarang"></label>
+      <label>Kondisi: <input type="text" name="kondisi"></label>
+      <label>Tindakan: <input type="text" name="tindakan"></label>
+      <label>Foto Link: <input type="text" name="fotoLink"></label>
+      <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:10px;">
+        <button type="submit">Simpan</button>
+        <button type="button" id="closePopup">Batal</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<h2>📝 Daftar Barang Kerusakan</h2>
+
+<div id="tableContainer"></div>
+<button class="btn-preview" id="btnBuatPreview">Buat Preview</button>
+<button class="btn-preview" id="btnSavePDF">Simpan ke PDF</button>
+
+<div id="preview" style="display:none; margin-top:20px;"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script type="module">
+import { db3 } from "../../MAIN/firebasesma.js";
+import { collection, getDocs, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js";
+
+const tableContainer = document.getElementById('tableContainer');
+const btnBuatPreview = document.getElementById('btnBuatPreview');
+const btnSavePDF = document.getElementById('btnSavePDF');
+const previewContainer = document.getElementById('preview');
+
+let semuaData = [];
+let selectedIndices = new Set();
+
+// Load data dari Firestore
+async function loadData() {
+  const snapshot = await getDocs(collection(db3, "beritaAcaraKerusakan"));
+  semuaData = [];
+
+  snapshot.forEach(docSnap => {
+    const data = docSnap.data();
+
+    if (!Array.isArray(data.barang)) {
+      console.warn(`Dokumen ${docSnap.id} tidak memiliki field 'barang' yang valid.`);
+      return; // skip dokumen ini
+    }
+
+    data.barang.forEach((b, idx) => {
+      semuaData.push({
+        docId: docSnap.id,
+        indexBarang: idx, // index untuk update di array Firestore
+        tanggal: data.tanggal,
+        melapor: data.melapor,
+        hari: data.hari,
+        status: b.status || "", // ambil status jika sudah ada
+        ...b
+      });
+    });
+  });
+
+  renderTable();
+}function renderTable() {
+  const dataBelumDicetak = semuaData.filter(b => b.status !== "Sudah Dicetak");
+
+  if (dataBelumDicetak.length === 0) {
+    tableContainer.innerHTML = "<p><i>Belum ada data yang bisa ditampilkan (semua sudah dicetak).</i></p>";
+    return;
+  }
+
+  let tableHTML = `
+    <table>
+      <thead>
+        <tr>
+          <th>No.</th>
+          <th>Nama Barang</th>
+          <th>Spesifikasi</th>
+          <th>Jumlah</th>
+          <th>Lokasi</th>
+          <th>Kondisi</th>
+          <th>Tindakan</th>
+          <th>Foto</th>
+          <th>Tanggal</th>
+          <th>Pelapor</th>
+          <th>Status</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody>
+  `;
+
+  dataBelumDicetak.forEach((b, i) => {
+    tableHTML += `
+      <tr data-index="${i}">
+        <td>${i+1}</td>
+        <td>${b.namaBarang}</td>
+        <td>${b.spesifikasi}</td>
+        <td>${b.jumlah}</td>
+        <td>${b.lokasiBarang}</td>
+        <td>${b.kondisi}</td>
+        <td>${b.tindakan}</td>
+        <td><a href="${b.fotoLink}" target="_blank">Lihat Foto</a></td>
+        <td>${new Date(b.tanggal).toLocaleDateString("id-ID")}</td>
+        <td>${b.melapor}</td>
+        <td>${b.status}</td>
+        <td>
+          <button class="status-btn" data-index="${i}">Sudah Dicetak</button>
+          <button class="edit-btn" data-index="${i}">Edit</button>
+        </td>
+      </tr>
+    `;
+  });
+
+  tableHTML += `</tbody></table>`;
+  tableContainer.innerHTML = tableHTML;
+
+  // Klik row → toggle selected
+  tableContainer.querySelectorAll('tr[data-index]').forEach(row => {
+    row.addEventListener('click', () => {
+      const index = Number(row.dataset.index);
+      if (selectedIndices.has(index)) {
+        selectedIndices.delete(index);
+        row.classList.remove('selected');
+      } else {
+        selectedIndices.add(index);
+        row.classList.add('selected');
+      }
+    });
+  });
+
+  // Klik tombol "Sudah Dicetak"
+  tableContainer.querySelectorAll('.status-btn').forEach(btn => {
+    btn.addEventListener('click', async e => {
+      e.stopPropagation();
+      const index = Number(btn.dataset.index);
+      const b = dataBelumDicetak[index];
+      if (b.status === "Sudah Dicetak") return;
+
+      b.status = "Sudah Dicetak";
+      renderTable(); // refresh tabel
+
+      try {
+        const docRef = doc(db3, "beritaAcaraKerusakan", b.docId);
+        const snapshot = await getDoc(docRef);
+        if (!snapshot.exists()) return;
+
+        const data = snapshot.data();
+        if (!Array.isArray(data.barang)) return;
+
+        const newBarang = data.barang.map((item, idx) => idx === b.indexBarang ? { ...item, status: "Sudah Dicetak" } : item);
+        await updateDoc(docRef, { barang: newBarang });
+      } catch (err) {
+        console.error("Gagal update Firestore:", err);
+        alert("Gagal update Firestore!");
+      }
+    });
+  });
+
+  // Klik tombol Edit
+  tableContainer.querySelectorAll('.edit-btn').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const index = Number(btn.dataset.index);
+      openEditPopup(index);
+    });
+  });
+}
+
+// Fungsi buka popup edit
+function openEditPopup(index) {
+  const b = semuaData[index];
+  const popup = document.getElementById('editPopup');
+  const form = document.getElementById('editForm');
+
+  // Isi form dengan data saat ini
+  form.namaBarang.value = b.namaBarang || "";
+  form.spesifikasi.value = b.spesifikasi || "";
+  form.jumlah.value = b.jumlah || "";
+  form.lokasiBarang.value = b.lokasiBarang || "";
+  form.kondisi.value = b.kondisi || "";
+  form.tindakan.value = b.tindakan || "";
+  form.fotoLink.value = b.fotoLink || "";
+
+  popup.style.display = "flex";
+
+  // Submit form
+  form.onsubmit = async (ev) => {
+    ev.preventDefault();
+
+    // Update data lokal
+    b.namaBarang = form.namaBarang.value;
+    b.spesifikasi = form.spesifikasi.value;
+    b.jumlah = Number(form.jumlah.value);
+    b.lokasiBarang = form.lokasiBarang.value;
+    b.kondisi = form.kondisi.value;
+    b.tindakan = form.tindakan.value;
+    b.fotoLink = form.fotoLink.value;
+
+    // Update Firestore
+    try {
+      const docRef = doc(db3, "beritaAcaraKerusakan", b.docId);
+      const snapshot = await getDoc(docRef);
+      if (!snapshot.exists()) throw "Dokumen tidak ditemukan";
+
+      const data = snapshot.data();
+      if (!Array.isArray(data.barang)) throw "Field barang tidak valid";
+
+      data.barang[b.indexBarang] = {
+        ...data.barang[b.indexBarang],
+        namaBarang: b.namaBarang,
+        spesifikasi: b.spesifikasi,
+        jumlah: b.jumlah,
+        lokasiBarang: b.lokasiBarang,
+        kondisi: b.kondisi,
+        tindakan: b.tindakan,
+        fotoLink: b.fotoLink,
+        status: b.status || ""
+      };
+
+      await updateDoc(docRef, { barang: data.barang });
+      renderTable();
+      popup.style.display = "none";
+    } catch (err) {
+      console.error(err);
+      alert("Gagal update data!");
+    }
+  };
+
+  document.getElementById('closePopup').onclick = () => {
+    popup.style.display = "none";
+  };
+}
+// Preview PDF per pelapor
+btnBuatPreview.addEventListener('click', () => {
+  if (selectedIndices.size === 0) return alert("Pilih minimal 1 barang!");
+
+  const barangTerpilih = Array.from(selectedIndices).map(i => semuaData[i]);
+
+  const kelompokPelapor = {};
+  barangTerpilih.forEach(b => {
+    const namaPelapor = b.melapor || "________________";
+    if (!kelompokPelapor[namaPelapor]) kelompokPelapor[namaPelapor] = [];
+    kelompokPelapor[namaPelapor].push(b);
+  });
+
+  previewContainer.innerHTML = "";
+
+  for (const [pelapor, items] of Object.entries(kelompokPelapor)) {
+    let tanggalText = "________";
+    let namaHari = "________";
+    if (items[0].tanggal) {
+      const date = new Date(items[0].tanggal);
+      const hariArray = ["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
+      namaHari = hariArray[date.getDay()];
+      tanggalText = date.toLocaleDateString('id-ID', { day:'numeric', month:'long', year:'numeric' });
+    }
+
+    let tableHTML = `
+      <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse; width: 100%;">
+        <thead>
+          <tr>
+            <th>No.</th>
+            <th>Nama Barang/Peralatan</th>
+            <th>Spesifikasi</th>
+            <th>Jumlah</th>
+            <th>Lokasi</th>
+            <th>Kondisi</th>
+            <th>Tindakan yang Akurat</th>
+          </tr>
+        </thead>
+        <tbody>
+    `;
+
+    items.forEach((b,i) => {
+      tableHTML += `
+        <tr>
+          <td>${i+1}</td>
+          <td>${b.namaBarang}</td>
+          <td>${b.spesifikasi}</td>
+          <td>${b.jumlah}</td>
+          <td>${b.lokasiBarang}</td>
+          <td>${b.kondisi}</td>
+          <td>${b.tindakan}</td>
+        </tr>
+      `;
+    });
+    tableHTML += `</tbody></table>`;
+
+    const divPreview = document.createElement("div");
+    divPreview.classList.add("a4");
+    divPreview.style.background = "white";
+    divPreview.style.backgroundSize = "cover";
+    divPreview.innerHTML = `
+      <div class="content">
+        <p>Pada hari <b>${namaHari}</b> tanggal <b>${tanggalText}</b>, telah terjadi kerusakan pada beberapa perangkat berikut:</p>
+        ${tableHTML}
+        <p>Barang-barang tersebut dilaporkan rusak oleh <b>${pelapor}</b> dan telah dilakukan pengecekan awal untuk memastikan kondisi alat.</p>
+        <p>Demikian berita acara ini dibuat dengan sebenar-benarnya untuk dapat digunakan sebagaimana mestinya.</p>
+      </div>
+      <div class="signature">
+        <div>
+          <p>Yang Mengetahui,</p>
+          <p><b>Koordinator Sarana Prasarana</b></p>
+          <br><br><br>
+          <p style="padding-top: 15px !important;"><u>Apriasih</u></p>
+        </div>
+        <div>
+          <p>Yang Melaporkan,</p>
+          <br><br><br><br>
+          <p><u>${pelapor}</u></p>
+        </div>
+      </div>
+    `;
+    previewContainer.appendChild(divPreview);
+  }
+
+  previewContainer.style.display = "block";
+});
+
+// Simpan ke PDF
+btnSavePDF.addEventListener('click', async () => {
+  const previewDivs = previewContainer.querySelectorAll('.a4');
+  if(previewDivs.length === 0) return alert("Belum ada preview!");
+
+  const { jsPDF } = window.jspdf;
+  const pdf = new jsPDF('p','mm','a4');
+
+  for(let i=0;i<previewDivs.length;i++){
+    const div = previewDivs[i];
+    div.style.display = "block";
+    const canvas = await html2canvas(div, { scale: 2 });
+    const imgData = canvas.toDataURL('image/png');
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+    if(i>0) pdf.addPage();
+    pdf.addImage(imgData,'PNG',0,0,pdfWidth,pdfHeight);
+  }
+  pdf.save('berita_acara.pdf');
+});
+
+// Load data saat halaman dibuka
+loadData();
+</script>
+
+
+
+
+</body>
+</html>
