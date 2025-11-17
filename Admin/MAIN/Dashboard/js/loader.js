@@ -56,7 +56,11 @@ document.addEventListener("DOMContentLoaded", () => {
           const bmModule = await import(`../js/historybarangmasuk.js`);
           bmModule.initDataBarangMasuk();  // Fungsi dari barangmasuk.js
 
-        }
+        }else if (page === "acara") {
+    const acaraModule = await import("../js/acara.js");
+    acaraModule.initAcara();   
+}
+
          // =====================================================
         // 🧾 HALAMAN KERUSAKAN
         // =====================================================
